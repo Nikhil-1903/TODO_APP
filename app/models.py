@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 from app import db
 
 
@@ -20,4 +18,5 @@ class User(db.Model):
     password = db.Column(db.String(200), nullable=False)
 
     tasks = db.relationship('Task', backref='user', lazy=True)
->>>>>>> Stashed changes
+
+
