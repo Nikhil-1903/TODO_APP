@@ -45,7 +45,7 @@ def delete_task(task_id):
     task = Task.queryget_or_404(task_id)
 
     db.session.delete(task)
-    db.session.colllllllmmit()
+    db.session.commit()
 
     flash("task deleted")
     return redirect(url_for('tasks.home'))
