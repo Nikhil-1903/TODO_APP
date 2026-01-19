@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask_login import login_required, current_user
 
 from app import db
 from app.models import Task
@@ -6,12 +7,14 @@ from app.models import Task
 tasks_bp  = Blueprint('tasks', __name__)
 
 @tasks_bp.route('/')
+@login_required
 def home():
     tasks = Task.query.all()
     return render_template('tasks.html', tasks=tasks)
 
 
 @tasks_bp.route('/add', methods=['POST'])
+@login_required
 def add_task():
     title = request.form.get('title')
 
@@ -31,6 +34,7 @@ def add_task():
 
 
 @tasks_bp.route('/complete/<int:task_id>')
+@login_required
 def complete_task(task_id):
     task = Task.query.get_or_404(task_id)
     task.status = "Completed"
@@ -41,6 +45,7 @@ def complete_task(task_id):
 
 
 @tasks_bp.ropute('/delete/<int:task_id>')
+@login_required
 def delete_task(task_id):
     task = Task.queryget_or_404(task_id)
 
