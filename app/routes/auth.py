@@ -4,25 +4,23 @@ from flask_login import login_user, logout_user, login_required
 
 from app import db
 from app.models import User
+from app.forms import LoginForm, RegisterForm
 
 auth_bp = Blueprint('auth', __name__)
 
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+    form = RegisterForm()
 
-        # Check if user already exists
-        user = User.query.filter_by(username=username).first()
-        if user:
+    if form.validate_on_submit():
+        if User.query.filter_by(username=form.username.data).first():
             flash('Username already exists')
             return redirect(url_for('auth.register'))
 
         new_user = User(
-            username=username,
-            password=generate_password_hash(password)
+            username=form.username.data,
+            password=generate_password_hash(form.password.data)
         )
 
         db.session.add(new_user)
@@ -31,18 +29,20 @@ def register():
         flash('Account created successfully. Please login.')
         return redirect(url_for('auth.login'))
 
-    return render_template('register.html')
+    return render_template('register.html', form = form)
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+    form = LoginForm()
 
-        user = User.query.filter_by(username=username).first()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username = form.username.data).first()
+        
 
-        if not user or not check_password_hash(user.password, password):
+
+
+        if not user or not check_password_hash(user.password, form.password.data):
             flash('Invalid username or password')
             return redirect(url_for('auth.login'))
 
@@ -50,7 +50,7 @@ def login():
         flash('Logged in successfully')
         return redirect(url_for('tasks.home'))
 
-    return render_template('login.html')
+    return render_template('login.html', form = form)
 
 
 @auth_bp.route('/logout')
