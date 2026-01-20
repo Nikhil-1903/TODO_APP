@@ -1,8 +1,11 @@
-from flask import Flask, login_manager
-from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import CSRFProtect
+from flask import Flask, LoginManager
+from flask_sqlalchemy import SQLAlchemy 
 
 
-db = SQLAlchemy()                                                         # create database object globally
+db = SQLAlchemy()
+login_manager = LoginManager()
+csrf = CSRFProtect()                                             # create database object globally
 
 def create_app():
     app = Flask(__name__)
