@@ -28,9 +28,14 @@
                     </a>
                 {% endif %}
 
+                 <a href="{{ url_for('tasks.edit_task', task_id=task.id) }}">
+                    Edit
+                </a>
+
                 <a href="{{ url_for('tasks.delete_task', task_id=task.id) }}">
                     Delete
                 </a>
+                
             </li>
         {% endfor %}
     </ul>
