@@ -33,4 +33,4 @@ class TaskForm(FlaskForm):
         'Task',
         validators=[DataRequired(), Length(max=100)]
     )
-    submit = SubmitField('Add')
+    submit = SubmitField('Save')
