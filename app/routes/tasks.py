@@ -50,3 +50,24 @@ def delete_task(task_id):
 
     flash("task deleted")
     return redirect(url_for('tasks.home'))
+
+
+@tasks_bp.route('/edit/<int:task_id>', methods=['GET', 'POST'])
+@login_required
+def edit_task(task_id):
+    task = Task.query.get_or_404(task_id)
+
+    # Ownership check
+    if task.user_id != current_user.id:
+        flash('Unauthorized action')
+        return redirect(url_for('tasks.home'))
+
+    form = TaskForm(obj=task)
+
+    if form.validate_on_submit():
+        task.title = form.title.data
+        db.session.commit()
+        flash('Task updated')
+        return redirect(url_for('tasks.home'))
+
+    return render_template('edit_task.html', form=form)
