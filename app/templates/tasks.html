@@ -7,8 +7,9 @@
 
 <!-- Add Task Form -->
 <form method="POST" action="{{ url_for('tasks.add_task') }}">
-    <input type="text" name="title" placeholder="Enter new task" required >
-    <button type="submit">Add</button>
+    {{ form.hidden_tag() }}
+    {{ form.title() }}
+    {{ form.submit() }}
 </form>
 
 <br>
@@ -36,5 +37,4 @@
 {% else %}
     <p>No tasks yet. Add one above 👆</p>
 {% endif %}
-
 {% endblock %}
