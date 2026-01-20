@@ -5,24 +5,25 @@
 {% block content %}
 <h2>Login</h2>
 
-<form method="POST" action="{{ url_for('auth.login') }}">
-    <div>
+<form method="POST">
+    {{ form.hidden_tag() }}
 
-        <label for="username">Username</label><br>
-        <input type="text" id="username" name="username" placeholder="Enter username" required>
-    
+    <div>
+        {{ form.username.label }}<br>
+        {{ form.username() }}
     </div>
 
     <br>
 
     <div>
-
-        <label for="password">Password</label><br>
-        <input type="password" id="password" name = "password" placeholder="Enter password" required>
-
+        {{ form.password.label }}<br>
+        {{ form.password() }}
     </div>
 
-    <hr>
+    <br>
+
+    {{ form.submit() }}
+</form>
 
 <p>
     Don’t have an account?
